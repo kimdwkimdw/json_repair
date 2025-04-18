@@ -28,11 +28,13 @@ jobs:
         with:
           path: |
             ${{ steps.pip-cache.outputs.dir }}
-            ~/.cache/pre-commit
+            .venv
           key: ${{ runner.os }}-pip-pre-commit-${{ hashFiles('**/.pre-commit-config.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pip-pre-commit
       - name: pre-commit #  don't use in self-hosted `- uses: pre-commit/action@v2.0.3`
+        env:
+          BENCHMARK_MULTIPLIER: 1.5
         run: |
           uv venv .venv
           source .venv/bin/activate
